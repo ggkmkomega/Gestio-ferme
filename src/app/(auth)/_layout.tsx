@@ -1,14 +1,12 @@
 import React from "react";
 import { Redirect, Stack } from "expo-router";
-//import { useAuth } from '../../providers/AuthProvider';
+import { UseAuth } from "@/src/Providers/AuthProvider";
 
 const AuthLayout = () => {
-  //const { session } = useAuth();
-
-  // if (session) {
-  //   return <Redirect href={'/'} />;
-  // }
-
+  const { session } = UseAuth();
+  if (session) {
+    return <Redirect href={"/"} />;
+  }
   return <Stack />;
 };
 
