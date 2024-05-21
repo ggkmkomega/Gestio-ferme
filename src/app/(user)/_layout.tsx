@@ -19,7 +19,7 @@ export default function TabLayout() {
   const { session } = UseAuth();
 
   if (!session) {
-    return <Redirect href={"/(Auth)/sign-in"} />;
+    return <Redirect href={"/(auth)/sign-in"} />;
   }
   return (
     <Tabs
@@ -30,27 +30,7 @@ export default function TabLayout() {
         headerShown: useClientOnlyValue(false, true),
       }}
     >
-      <Tabs.Screen
-        name="index"
-        options={{
-          title: "Tab One",
-          tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
-          headerRight: () => (
-            <Link href="/modal" asChild>
-              <Pressable>
-                {({ pressed }) => (
-                  <FontAwesome
-                    name="info-circle"
-                    size={25}
-                    color={Colors.light.text}
-                    style={{ marginRight: 15, opacity: pressed ? 0.5 : 1 }}
-                  />
-                )}
-              </Pressable>
-            </Link>
-          ),
-        }}
-      />
+      <Tabs.Screen name="index" />
       <Tabs.Screen
         name="two"
         options={{
