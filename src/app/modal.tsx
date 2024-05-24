@@ -1,39 +1,76 @@
-import { StatusBar } from "expo-status-bar";
-import { Platform, StyleSheet } from "react-native";
+import { Text, View, TextInput, Button, Alert } from "react-native";
+import { useForm, Controller } from "react-hook-form";
+import DatePicker from "../components/Datepicker";
+import { useState } from "react";
 
-import EditScreenInfo from "@/src/components/EditScreenInfo";
-import { Text, View } from "@/src/components/Themed";
+export default function Modal() {
+  const [open, setOpen] = useState(false);
+  const {
+    control,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<FormData>({
+    defaultValues: {
+      entryDate: new Date(),
+      firstName: "",
+      lastName: "",
+    },
+  });
+  const onSubmit = (data: FormData) => console.log(data);
 
-export default function ModalScreen() {
+  type FormData = {
+    entryDate: Date;
+    firstName: string;
+    lastName: string;
+  };
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Modal</Text>
-      <View
-        style={styles.separator}
-        lightColor="#eee"
-        darkColor="rgba(255,255,255,0.1)"
+    <View style={{ padding: 20, display: "flex", gap: 20 }}>
+      <Controller
+        control={control}
+        rules={{
+          required: true,
+        }}
+        render={({ field: { onChange, onBlur, value } }) => (
+          <TextInput
+            placeholder="First name"
+            onBlur={onBlur}
+            onChangeText={onChange}
+            value={value}
+          />
+        )}
+        name="firstName"
       />
-      <EditScreenInfo path="app/modal.tsx" />
+      {errors.firstName && <Text>This is required.</Text>}
 
-      {/* Use a light status bar on iOS to account for the black space above the modal */}
-      <StatusBar style={Platform.OS === "ios" ? "light" : "auto"} />
+      <Controller
+        control={control}
+        name="entryDate"
+        render={({ field }) => (
+          <DatePicker
+            setDate={field.onChange}
+            date={field.value}
+            open={open}
+            setOpen={setOpen}
+          />
+        )}
+      />
+      <Controller
+        control={control}
+        rules={{
+          maxLength: 100,
+        }}
+        render={({ field: { onChange, onBlur, value } }) => (
+          <TextInput
+            placeholder="Last name"
+            onBlur={onBlur}
+            onChangeText={onChange}
+            value={value}
+          />
+        )}
+        name="lastName"
+      />
+
+      <Button title="Add" onPress={handleSubmit(onSubmit)} />
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  title: {
-    fontSize: 20,
-    fontWeight: "bold",
-  },
-  separator: {
-    marginVertical: 30,
-    height: 1,
-    width: "80%",
-  },
-});

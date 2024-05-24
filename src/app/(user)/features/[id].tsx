@@ -1,12 +1,12 @@
 import features from "@/assets/data/features";
 import ExampleThree from "@/src/components/Table";
-import { Stack, useLocalSearchParams } from "expo-router";
+import { Stack, useLocalSearchParams, useRouter } from "expo-router";
 import { StyleSheet, Text, View, Button } from "react-native";
 
 const featureDetailSceen = () => {
   const { id: idString } = useLocalSearchParams();
   const id = parseFloat(typeof idString === "string" ? idString : idString[0]);
-
+  const router = useRouter();
   const feature = features.find((product) => product.id === id);
   return (
     <View style={styles.container}>
@@ -21,7 +21,12 @@ const featureDetailSceen = () => {
         }}
       >
         <Text style={{ fontWeight: "bold" }}>Poules/Poussins</Text>
-        <Button title="Ajouter" />
+        <Button
+          title="Ajouter"
+          onPress={() => {
+            router.navigate("/modal");
+          }}
+        />
       </View>
       <ExampleThree />
     </View>
