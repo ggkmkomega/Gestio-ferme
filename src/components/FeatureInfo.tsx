@@ -14,7 +14,7 @@ function FeatureInfo({ feature }: { feature: FeatureItem }) {
       {feature.id > 2 && (
         <Image source={require("../../assets/R.png")} style={styles.image} />
       )}
-      <Link href={`/${segments[0]}/feature/${feature.id}`} asChild>
+      <Link href={`/${segments[0]}/features/${feature.id}`} asChild>
         <Pressable>
           <FontAwesome name="circle" size={25} color={Colors.light.text} />
           <Text style={styles.title}>{feature.title}</Text>
