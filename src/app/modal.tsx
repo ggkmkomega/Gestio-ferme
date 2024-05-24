@@ -12,38 +12,30 @@ export default function Modal() {
   } = useForm<FormData>({
     defaultValues: {
       entryDate: new Date(),
-      firstName: "",
-      lastName: "",
+      ratiochick: 0,
+      QTalimConsu: 0,
+      QTalimConsuWeek: 0,
+      QTwater: 0,
     },
   });
   const onSubmit = (data: FormData) => console.log(data);
-
+  //Todo Display selected text
   type FormData = {
     entryDate: Date;
-    firstName: string;
-    lastName: string;
+    ratiochick: number;
+    QTalimConsu: number;
+    QTalimConsuWeek: number;
+    QTwater: number;
+    wtChicken: number;
+    DeathDay: number;
+    number: number;
+    DeathRate: number;
   };
   return (
     <View style={{ padding: 20, display: "flex", gap: 20 }}>
       <Controller
         control={control}
-        rules={{
-          required: true,
-        }}
-        render={({ field: { onChange, onBlur, value } }) => (
-          <TextInput
-            placeholder="First name"
-            onBlur={onBlur}
-            onChangeText={onChange}
-            value={value}
-          />
-        )}
-        name="firstName"
-      />
-      {errors.firstName && <Text>This is required.</Text>}
-
-      <Controller
-        control={control}
+        rules={{ required: true }}
         name="entryDate"
         render={({ field }) => (
           <DatePicker
@@ -54,21 +46,143 @@ export default function Modal() {
           />
         )}
       />
+      {errors.entryDate && <Text>This is required.</Text>}
       <Controller
         control={control}
         rules={{
-          maxLength: 100,
+          required: true,
         }}
         render={({ field: { onChange, onBlur, value } }) => (
           <TextInput
-            placeholder="Last name"
+            inputMode="numeric"
             onBlur={onBlur}
             onChangeText={onChange}
             value={value}
+            keyboardType="numeric"
           />
         )}
-        name="lastName"
+        name="ratiochick"
       />
+      {errors.ratiochick && <Text>This is required.</Text>}
+      <Controller
+        control={control}
+        rules={{
+          required: true,
+        }}
+        render={({ field: { onChange, onBlur, value } }) => (
+          <TextInput
+            inputMode="numeric"
+            onBlur={onBlur}
+            onChangeText={onChange}
+            value={value}
+            keyboardType="numeric"
+          />
+        )}
+        name="QTalimConsu"
+      />
+      {errors.QTalimConsu && <Text>This is required.</Text>}
+      <Controller
+        control={control}
+        rules={{
+          required: true,
+        }}
+        render={({ field: { onChange, onBlur, value } }) => (
+          <TextInput
+            inputMode="numeric"
+            onBlur={onBlur}
+            onChangeText={onChange}
+            value={value}
+            keyboardType="numeric"
+          />
+        )}
+        name="QTalimConsuWeek"
+      />
+      {errors.QTalimConsuWeek && <Text>This is required.</Text>}
+      <Controller
+        control={control}
+        rules={{
+          required: true,
+        }}
+        render={({ field: { onChange, onBlur, value } }) => (
+          <TextInput
+            inputMode="numeric"
+            onBlur={onBlur}
+            onChangeText={onChange}
+            value={value}
+            keyboardType="numeric"
+          />
+        )}
+        name="QTwater"
+      />
+      {errors.QTwater && <Text>This is required.</Text>}
+      <Controller
+        control={control}
+        rules={{
+          required: true,
+        }}
+        render={({ field: { onChange, onBlur, value } }) => (
+          <TextInput
+            inputMode="numeric"
+            onBlur={onBlur}
+            onChangeText={onChange}
+            value={value}
+            keyboardType="numeric"
+          />
+        )}
+        name="wtChicken"
+      />
+      {errors.wtChicken && <Text>This is required.</Text>}
+      <Controller
+        control={control}
+        rules={{
+          required: true,
+        }}
+        render={({ field: { onChange, onBlur, value } }) => (
+          <TextInput
+            inputMode="numeric"
+            onBlur={onBlur}
+            onChangeText={onChange}
+            value={value}
+            keyboardType="numeric"
+          />
+        )}
+        name="DeathDay"
+      />
+      {errors.DeathDay && <Text>This is required.</Text>}
+      <Controller
+        control={control}
+        rules={{
+          required: true,
+        }}
+        render={({ field: { onChange, onBlur, value } }) => (
+          <TextInput
+            inputMode="numeric"
+            onBlur={onBlur}
+            onChangeText={onChange}
+            value={value}
+            keyboardType="numeric"
+          />
+        )}
+        name="number"
+      />
+      {errors.number && <Text>This is required.</Text>}
+      <Controller
+        control={control}
+        rules={{
+          required: true,
+        }}
+        render={({ field: { onChange, onBlur, value } }) => (
+          <TextInput
+            inputMode="numeric"
+            onBlur={onBlur}
+            onChangeText={onChange}
+            value={value}
+            keyboardType="numeric"
+          />
+        )}
+        name="DeathRate"
+      />
+      {errors.DeathRate && <Text>This is required.</Text>}
 
       <Button title="Add" onPress={handleSubmit(onSubmit)} />
     </View>
