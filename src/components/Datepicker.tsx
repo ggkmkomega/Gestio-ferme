@@ -1,33 +1,34 @@
 import React from "react";
-import { Button, View } from "react-native";
-import DateTimePickerModal from "react-native-modal-datetime-picker";
+import { Button, StyleSheet, View } from "react-native";
+import DateTimePicker, { DateType } from "react-native-ui-datepicker";
+import dayjs from "dayjs";
 
-const DatePicker = ({
+const DatePickerModal = ({
   date,
   setDate,
   open,
   setOpen,
 }: {
-  date: Date;
-  setDate: (date: Date) => void;
+  date: DateType;
+  setDate: (date: DateType) => void;
   open: boolean;
   setOpen: (open: boolean) => void;
 }) => {
   return (
-    <View>
-      <Button title=" Sélectionnez une date" onPress={() => setOpen(true)} />
-      <DateTimePickerModal
-        isVisible={open}
-        mode="date"
+    <View style={styles.container}>
+      <DateTimePicker
+        mode="single"
         date={date}
-        onConfirm={(date) => {
-          setDate(date);
-          setOpen(false);
-        }}
-        onCancel={() => setOpen(false)}
+        onChange={(params) => setDate(params.date)}
       />
     </View>
   );
 };
 
-export default DatePicker;
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: "#F5FCFF",
+  },
+});
+export default DatePickerModal;
