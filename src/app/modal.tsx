@@ -1,16 +1,9 @@
-import {
-  Text,
-  View,
-  TextInput,
-  Button,
-  StyleSheet,
-  ScrollView,
-} from "react-native";
-import { useForm, Controller, Form } from "react-hook-form";
+import { Text, Button, StyleSheet, ScrollView } from "react-native";
+import { useForm, Controller } from "react-hook-form";
 import DatePicker from "../components/Datepicker";
 import { useState } from "react";
 import dayjs from "dayjs";
-import FormInputController from "../components/controllers/formInputController";
+import FormInputController from "../components/FormInputController";
 
 export default function Modal() {
   const [open, setOpen] = useState(false);
@@ -65,7 +58,7 @@ export default function Modal() {
                 fontWeight: "semibold",
               }}
             >
-              Selected Date : {dayjs(field.value).format("DD MMM YYYY")}
+              Date entree : {dayjs(field.value).format("DD MMM YYYY")}
             </Text>
             {errors.entryDate && (
               <Text style={styles.errorText}>This is required.</Text>
@@ -73,58 +66,53 @@ export default function Modal() {
           </>
         )}
       />
-
       <FormInputController
         control={control}
-        errors={errors}
         name="ratiochick"
         displayText="Ratio Chicken"
       />
-      {errors.ratiochick && <Text>This is required.</Text>}
+      {errors.ratiochick && (
+        <Text style={styles.errorText}>This is required.</Text>
+      )}
       <FormInputController
         control={control}
-        errors={errors}
         name="QTalimConsu"
         displayText="QTE Aliment"
       />
+
+      {errors.QTalimConsu && (
+        <Text style={styles.errorText}>This is required.</Text>
+      )}
       <FormInputController
         control={control}
-        errors={errors}
-        name="QTalimConsuWeek"
-        displayText="QTE Aliment Semaine"
-      />
-      <FormInputController
-        control={control}
-        errors={errors}
         name="QTwater"
         displayText="QTE Eau"
       />
+      {errors.QTwater && (
+        <Text style={styles.errorText}>This is required.</Text>
+      )}
       <FormInputController
         control={control}
-        errors={errors}
         name="wtChicken"
         displayText="Poids Poules"
       />
-
+      {errors.wtChicken && (
+        <Text style={styles.errorText}>This is required.</Text>
+      )}
       <FormInputController
         control={control}
-        errors={errors}
         name="DeathDay"
         displayText="Mortes par jour"
       />
+      {errors.DeathDay && (
+        <Text style={styles.errorText}>This is required.</Text>
+      )}
       <FormInputController
         control={control}
-        errors={errors}
         name="number"
         displayText="Nombre"
       />
-
-      <FormInputController
-        control={control}
-        errors={errors}
-        name="DeathRate"
-        displayText="Taux de mortalite"
-      />
+      {errors.number && <Text style={styles.errorText}>This is required.</Text>}
 
       <Button title="Add" onPress={handleSubmit(onSubmit)} />
     </ScrollView>

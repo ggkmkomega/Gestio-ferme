@@ -1,4 +1,11 @@
-import { View, Text, TextInput, StyleSheet, Alert } from "react-native";
+import {
+  View,
+  Text,
+  TextInput,
+  StyleSheet,
+  Alert,
+  ScrollView,
+} from "react-native";
 import React, { useState } from "react";
 import Button from "../../components/Button";
 import Colors from "../../constants/Colors";
@@ -26,7 +33,7 @@ const SignUpScreen = () => {
   }
 
   return (
-    <View style={styles.container}>
+    <ScrollView style={styles.container}>
       <Stack.Screen options={{ title: "Sign up" }} />
       <View style={styles.logoContainer}>
         <Image
@@ -65,14 +72,13 @@ const SignUpScreen = () => {
           Sign in
         </Link>
       </View>
-    </View>
+    </ScrollView>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
     padding: 20,
-    justifyContent: "center",
     flex: 1,
     gap: 40,
   },

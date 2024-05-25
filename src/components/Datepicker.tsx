@@ -15,7 +15,7 @@ const DatePicker = ({
 }) => {
   return (
     <View>
-      <Button title="Select Date" onPress={() => setOpen(true)} />
+      <Button title=" Sélectionnez une date" onPress={() => setOpen(true)} />
       <DateTimePickerModal
         isVisible={open}
         mode="date"

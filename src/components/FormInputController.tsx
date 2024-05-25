@@ -2,13 +2,7 @@ import { View, Text, TextInput, StyleSheet } from "react-native";
 import React from "react";
 import { Controller } from "react-hook-form";
 
-const FormInputController = ({
-  control,
-  errors,
-  name,
-  displayText,
-  ...props
-}) => {
+const FormInputController = ({ control, name, displayText, ...props }) => {
   return (
     <View style={styles.parentView}>
       <Text style={styles.displayStyle}>{displayText}</Text>
@@ -30,7 +24,6 @@ const FormInputController = ({
           />
         )}
       />
-      {errors && <Text style={styles.errorText}>This is required.</Text>}
     </View>
   );
 };
@@ -51,9 +44,7 @@ const styles = StyleSheet.create({
     width: 100,
     borderColor: "gray",
   },
-  errorText: {
-    color: "red",
-  },
+
   displayStyle: {
     fontSize: 16,
     fontWeight: "semibold",

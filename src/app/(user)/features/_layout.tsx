@@ -6,7 +6,7 @@ export default function shopStack() {
   const { session } = UseAuth();
 
   if (!session) {
-    router.replace("/");
+    router.replace("/sign-in");
   }
   return (
     <Stack>

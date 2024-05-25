@@ -8,6 +8,16 @@ const featureDetailSceen = () => {
   const id = parseFloat(typeof idString === "string" ? idString : idString[0]);
   const router = useRouter();
   const feature = features.find((product) => product.id === id);
+
+  if (id > 1) {
+    return (
+      <View style={styles.container}>
+        <Stack.Screen options={{ title: feature?.title }} />
+
+        <Text>Coming Soon</Text>
+      </View>
+    );
+  }
   return (
     <View style={styles.container}>
       <Stack.Screen options={{ title: feature?.title }} />
