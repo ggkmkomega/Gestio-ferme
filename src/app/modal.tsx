@@ -1,10 +1,20 @@
-import { Text, View, TextInput, Button, Alert } from "react-native";
-import { useForm, Controller } from "react-hook-form";
+import {
+  Text,
+  View,
+  TextInput,
+  Button,
+  StyleSheet,
+  ScrollView,
+} from "react-native";
+import { useForm, Controller, Form } from "react-hook-form";
 import DatePicker from "../components/Datepicker";
 import { useState } from "react";
+import dayjs from "dayjs";
+import FormInputController from "../components/controllers/formInputController";
 
 export default function Modal() {
   const [open, setOpen] = useState(false);
+  //const [date, setDate] = useState(new Date());
   const {
     control,
     handleSubmit,
@@ -16,6 +26,10 @@ export default function Modal() {
       QTalimConsu: 0,
       QTalimConsuWeek: 0,
       QTwater: 0,
+      wtChicken: 0,
+      DeathDay: 0,
+      number: 0,
+      DeathRate: 0,
     },
   });
   const onSubmit = (data: FormData) => console.log(data);
@@ -32,159 +46,91 @@ export default function Modal() {
     DeathRate: number;
   };
   return (
-    <View style={{ padding: 20, display: "flex", gap: 20 }}>
+    <ScrollView style={styles.container}>
       <Controller
         control={control}
         rules={{ required: true }}
         name="entryDate"
         render={({ field }) => (
-          <DatePicker
-            setDate={field.onChange}
-            date={field.value}
-            open={open}
-            setOpen={setOpen}
-          />
+          <>
+            <DatePicker
+              setDate={field.onChange}
+              date={field.value}
+              open={open}
+              setOpen={setOpen}
+            />
+            <Text
+              style={{
+                fontSize: 16,
+                fontWeight: "semibold",
+              }}
+            >
+              Selected Date : {dayjs(field.value).format("DD MMM YYYY")}
+            </Text>
+            {errors.entryDate && (
+              <Text style={styles.errorText}>This is required.</Text>
+            )}
+          </>
         )}
       />
-      {errors.entryDate && <Text>This is required.</Text>}
-      <Controller
+
+      <FormInputController
         control={control}
-        rules={{
-          required: true,
-        }}
-        render={({ field: { onChange, onBlur, value } }) => (
-          <TextInput
-            inputMode="numeric"
-            onBlur={onBlur}
-            onChangeText={onChange}
-            value={value}
-            keyboardType="numeric"
-          />
-        )}
+        errors={errors}
         name="ratiochick"
+        displayText="Ratio Chicken"
       />
       {errors.ratiochick && <Text>This is required.</Text>}
-      <Controller
+      <FormInputController
         control={control}
-        rules={{
-          required: true,
-        }}
-        render={({ field: { onChange, onBlur, value } }) => (
-          <TextInput
-            inputMode="numeric"
-            onBlur={onBlur}
-            onChangeText={onChange}
-            value={value}
-            keyboardType="numeric"
-          />
-        )}
+        errors={errors}
         name="QTalimConsu"
+        displayText="QTE Aliment"
       />
-      {errors.QTalimConsu && <Text>This is required.</Text>}
-      <Controller
+      <FormInputController
         control={control}
-        rules={{
-          required: true,
-        }}
-        render={({ field: { onChange, onBlur, value } }) => (
-          <TextInput
-            inputMode="numeric"
-            onBlur={onBlur}
-            onChangeText={onChange}
-            value={value}
-            keyboardType="numeric"
-          />
-        )}
+        errors={errors}
         name="QTalimConsuWeek"
+        displayText="QTE Aliment Semaine"
       />
-      {errors.QTalimConsuWeek && <Text>This is required.</Text>}
-      <Controller
+      <FormInputController
         control={control}
-        rules={{
-          required: true,
-        }}
-        render={({ field: { onChange, onBlur, value } }) => (
-          <TextInput
-            inputMode="numeric"
-            onBlur={onBlur}
-            onChangeText={onChange}
-            value={value}
-            keyboardType="numeric"
-          />
-        )}
+        errors={errors}
         name="QTwater"
+        displayText="QTE Eau"
       />
-      {errors.QTwater && <Text>This is required.</Text>}
-      <Controller
+      <FormInputController
         control={control}
-        rules={{
-          required: true,
-        }}
-        render={({ field: { onChange, onBlur, value } }) => (
-          <TextInput
-            inputMode="numeric"
-            onBlur={onBlur}
-            onChangeText={onChange}
-            value={value}
-            keyboardType="numeric"
-          />
-        )}
+        errors={errors}
         name="wtChicken"
+        displayText="Poids Poules"
       />
-      {errors.wtChicken && <Text>This is required.</Text>}
-      <Controller
+
+      <FormInputController
         control={control}
-        rules={{
-          required: true,
-        }}
-        render={({ field: { onChange, onBlur, value } }) => (
-          <TextInput
-            inputMode="numeric"
-            onBlur={onBlur}
-            onChangeText={onChange}
-            value={value}
-            keyboardType="numeric"
-          />
-        )}
+        errors={errors}
         name="DeathDay"
+        displayText="Mortes par jour"
       />
-      {errors.DeathDay && <Text>This is required.</Text>}
-      <Controller
+      <FormInputController
         control={control}
-        rules={{
-          required: true,
-        }}
-        render={({ field: { onChange, onBlur, value } }) => (
-          <TextInput
-            inputMode="numeric"
-            onBlur={onBlur}
-            onChangeText={onChange}
-            value={value}
-            keyboardType="numeric"
-          />
-        )}
+        errors={errors}
         name="number"
+        displayText="Nombre"
       />
-      {errors.number && <Text>This is required.</Text>}
-      <Controller
+
+      <FormInputController
         control={control}
-        rules={{
-          required: true,
-        }}
-        render={({ field: { onChange, onBlur, value } }) => (
-          <TextInput
-            inputMode="numeric"
-            onBlur={onBlur}
-            onChangeText={onChange}
-            value={value}
-            keyboardType="numeric"
-          />
-        )}
+        errors={errors}
         name="DeathRate"
+        displayText="Taux de mortalite"
       />
-      {errors.DeathRate && <Text>This is required.</Text>}
 
       <Button title="Add" onPress={handleSubmit(onSubmit)} />
-    </View>
+    </ScrollView>
   );
 }
+const styles = StyleSheet.create({
+  container: { padding: 20, display: "flex", gap: 20 },
+  errorText: { color: "red" },
+});

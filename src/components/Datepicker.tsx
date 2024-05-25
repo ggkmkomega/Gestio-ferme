@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { Button, View } from "react-native";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 
@@ -15,12 +15,12 @@ const DatePicker = ({
 }) => {
   return (
     <View>
-      <Button title="Show Date Picker" onPress={() => setOpen(true)} />
+      <Button title="Select Date" onPress={() => setOpen(true)} />
       <DateTimePickerModal
         isVisible={open}
         mode="date"
         date={date}
-        onConfirm={() => {
+        onConfirm={(date) => {
           setDate(date);
           setOpen(false);
         }}
