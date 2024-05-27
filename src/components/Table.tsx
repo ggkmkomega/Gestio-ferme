@@ -1,7 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { StyleSheet, View, ScrollView } from "react-native";
 import { Table, Row, Cell } from "react-native-table-component";
 import * as SQLite from "expo-sqlite/legacy";
+import { useFocusEffect } from "expo-router";
 
 const ExampleThree = () => {
   const tableHead = [
@@ -15,9 +16,8 @@ const ExampleThree = () => {
     "Nombre de mortalité (jour)",
     "Nombre restant (jour)",
     "Taux de mortalité",
-    "Delete",
   ];
-  const widthArr = [50, 120, 160, 200, 200, 140, 140, 160, 100, 140, 80];
+  const widthArr = [50, 120, 160, 200, 200, 140, 140, 160, 100, 140];
 
   const [db, setDb] = useState(SQLite.openDatabase("Farm.db"));
   const [names, setNames] = useState([""]);
@@ -27,7 +27,7 @@ const ExampleThree = () => {
 
   const insertSql = `INSERT INTO poultry_data (entry_date, number_of_chicks_or_hens, daily_feed_consumption, weekly_feed_consumption, water_consumption, weight_of_chick_or_hen, daily_mortality, remaining_number, mortality_rate) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`;
 
-  useEffect(() => {
+  const fetchData = useCallback(() => {
     db.transaction((tx) => {
       tx.executeSql(
         "SELECT * FROM poultry_data",
@@ -36,7 +36,13 @@ const ExampleThree = () => {
         (txObj, error) => console.log(error)
       );
     });
-  }, [db]);
+  }, []);
+
+  useFocusEffect(
+    useCallback(() => {
+      fetchData();
+    }, [fetchData])
+  );
 
   useEffect(() => {
     const order = [3, 2, 5, 0, 8, 7, 9, 1, 6, 4];

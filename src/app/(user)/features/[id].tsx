@@ -1,9 +1,6 @@
 import features from "@/assets/data/features";
 import ExampleThree from "@/src/components/Table";
 import { Stack, useLocalSearchParams, useRouter } from "expo-router";
-import * as SQLite from "expo-sqlite";
-import { useEffect, useState } from "react";
-import { Platform } from "react-native";
 import { StyleSheet, Text, View, Button } from "react-native";
 
 const featureDetailSceen = () => {
@@ -11,13 +8,11 @@ const featureDetailSceen = () => {
   const id = parseFloat(typeof idString === "string" ? idString : idString[0]);
   const router = useRouter();
   const feature = features.find((product) => product.id === id);
-  const [tableData, setTableData] = useState([""]);
 
   if (id > 1) {
     return (
       <View style={styles.container}>
         <Stack.Screen options={{ title: feature?.title }} />
-
         <Text>Coming Soon</Text>
       </View>
     );
@@ -35,12 +30,27 @@ const featureDetailSceen = () => {
         }}
       >
         <Text style={{ fontWeight: "bold" }}>Poules/Poussins</Text>
-        <Button
-          title="Ajouter"
-          onPress={() => {
-            router.navigate("/modal");
+        <View
+          style={{
+            display: "flex",
+            justifyContent: "space-around",
+            flexDirection: "row",
+            gap: 4,
           }}
-        />
+        >
+          <Button
+            title="Ajouter"
+            onPress={() => {
+              router.navigate("/modal");
+            }}
+          />
+          <Button
+            title="Supprimer"
+            onPress={() => {
+              router.navigate("/DeleteModal");
+            }}
+          />
+        </View>
       </View>
       <ExampleThree />
     </View>
