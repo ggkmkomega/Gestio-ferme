@@ -1,6 +1,9 @@
 import features from "@/assets/data/features";
 import ExampleThree from "@/src/components/Table";
 import { Stack, useLocalSearchParams, useRouter } from "expo-router";
+import * as SQLite from "expo-sqlite";
+import { useEffect, useState } from "react";
+import { Platform } from "react-native";
 import { StyleSheet, Text, View, Button } from "react-native";
 
 const featureDetailSceen = () => {
@@ -8,6 +11,7 @@ const featureDetailSceen = () => {
   const id = parseFloat(typeof idString === "string" ? idString : idString[0]);
   const router = useRouter();
   const feature = features.find((product) => product.id === id);
+  const [tableData, setTableData] = useState([""]);
 
   if (id > 1) {
     return (
