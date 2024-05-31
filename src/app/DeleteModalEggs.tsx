@@ -8,7 +8,7 @@ import { useRouter } from "expo-router";
 export default function Modal() {
   const [db, setDb] = useState(SQLite.openDatabase("Farm.db"));
   const router = useRouter();
-  const deletSql = `DELETE FROM poultry_data WHERE id = ?`;
+  const deletSql = `DELETE FROM Eggs_data WHERE id = ?`;
   const {
     control,
     handleSubmit,

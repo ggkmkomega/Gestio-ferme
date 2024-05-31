@@ -6,10 +6,13 @@ import dayjs from "dayjs";
 import FormInputController from "../components/FormInputController";
 import { DateType } from "react-native-ui-datepicker";
 import * as SQLite from "expo-sqlite/legacy";
+import { useRouter } from "expo-router";
 
 export default function Modal() {
   const [open, setOpen] = useState(true);
   //const [date, setDate] = useState(new Date());
+  const router = useRouter();
+
   const [db, setDb] = useState(SQLite.openDatabase("Farm.db"));
   const insertSql = `INSERT INTO poultry_data (entry_date, number_of_chicks_or_hens, daily_feed_consumption, weekly_feed_consumption, water_consumption, weight_of_chick_or_hen, daily_mortality, remaining_number, mortality_rate) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`;
   useEffect(() => {
@@ -36,19 +39,27 @@ export default function Modal() {
     },
   });
   const onSubmit = (data: FormData) => {
-    db.transaction((tx) => {
-      tx.executeSql(insertSql, [
-        dayjs(data.entry_date).format("DD MMM YYYY"),
-        data.number_of_chicks_or_hens,
-        data.daily_feed_consumption,
-        data.weekly_feed_consumption,
-        data.water_consumption,
-        data.weight_of_chick_or_hen,
-        data.daily_mortality,
-        data.remaining_number,
-        data.mortality_rate,
-      ]);
-    });
+    try {
+      db.transaction((tx) => {
+        tx.executeSql(
+          "create table if not exists poultry_data (id INTEGER PRIMARY KEY AUTOINCREMENT,entry_date TEXT, number_of_chicks_or_hens INTEGER, daily_feed_consumption REAL, weekly_feed_consumption REAL, water_consumption REAL, weight_of_chick_or_hen REAL, daily_mortality INTEGER, remaining_number INTEGER, mortality_rate REAL);"
+        );
+        tx.executeSql(insertSql, [
+          dayjs(data.entry_date).format("DD MMM YYYY"),
+          data.number_of_chicks_or_hens,
+          data.daily_feed_consumption,
+          data.weekly_feed_consumption,
+          data.water_consumption,
+          data.weight_of_chick_or_hen,
+          data.daily_mortality,
+          data.remaining_number,
+          data.mortality_rate,
+        ]);
+      });
+    } catch (error) {
+    } finally {
+      router.back();
+    }
   };
   type FormData = {
     entry_date: DateType;
