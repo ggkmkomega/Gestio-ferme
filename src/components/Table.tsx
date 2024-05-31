@@ -25,8 +25,6 @@ const ExampleThree = () => {
     string[][] | undefined
   >(undefined);
 
-  const insertSql = `INSERT INTO poultry_data (entry_date, number_of_chicks_or_hens, daily_feed_consumption, weekly_feed_consumption, water_consumption, weight_of_chick_or_hen, daily_mortality, remaining_number, mortality_rate) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`;
-
   const fetchData = useCallback(() => {
     db.transaction((tx) => {
       tx.executeSql(
@@ -83,7 +81,78 @@ const ExampleThree = () => {
     </View>
   );
 };
+export const EggTable = () => {
+  const tableHead = [
+    "id",
+    "Nombre de Poules",
+    "Ouefs pondus (jour)",
+    "Poids de l'oeuf (g)",
+    "Oeufs Cassés",
+  ];
+  const widthArr = [50, 140, 140, 140, 140];
 
+  const [db, setDb] = useState(SQLite.openDatabase("Farm.db"));
+  const [eggs, seteggs] = useState([""]);
+  const [rearrangedArray, setRearrangedArray] = useState<
+    string[][] | undefined
+  >(undefined);
+
+  const fetchData = useCallback(() => {
+    db.transaction((tx) => {
+      tx.executeSql(
+        "SELECT * FROM egg_data",
+        null,
+        (txObj, resultSet) => seteggs(resultSet.rows._array),
+        (txObj, error) => console.log(error)
+      );
+    });
+  }, []);
+
+  useFocusEffect(
+    useCallback(() => {
+      fetchData();
+    }, [fetchData])
+  );
+
+  useEffect(() => {
+    const order = [3, 2, 5, 0, 8, 7, 9, 1, 6, 4];
+    const rearrangedArray = eggs.map((dataObject) => {
+      return Object.values(dataObject);
+    });
+    setRearrangedArray(rearrangedArray);
+    console.log("eggs", rearrangedArray);
+  }, [eggs]);
+
+  return (
+    <View style={styles.container}>
+      <ScrollView horizontal={true}>
+        <View>
+          <Table borderStyle={{ borderWidth: 1, borderColor: "#C1C0B9" }}>
+            <Row
+              data={tableHead}
+              widthArr={widthArr}
+              style={styles.header}
+              textStyle={{ ...styles.text, color: "white" }}
+            />
+          </Table>
+          <ScrollView style={styles.dataWrapper}>
+            <Table borderStyle={{ borderWidth: 1, borderColor: "#C1C0B9" }}>
+              {rearrangedArray?.map((rowData, index) => (
+                <Row
+                  key={index}
+                  data={rowData}
+                  widthArr={widthArr}
+                  style={index % 2 ? styles.evenrow : styles.oddrow}
+                  textStyle={styles.text}
+                />
+              ))}
+            </Table>
+          </ScrollView>
+        </View>
+      </ScrollView>
+    </View>
+  );
+};
 const styles = StyleSheet.create({
   container: { flex: 1, padding: 16, paddingTop: 30, backgroundColor: "#fff" },
   header: { height: 50, backgroundColor: "#537791" },

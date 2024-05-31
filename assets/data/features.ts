@@ -8,13 +8,13 @@ export type FeatureItem = {
 const features: FeatureItem[] = [
   {
     id: 1,
-    title: "Chicken",
+    title: "Alimentation des Poulets",
     icon: "chicken",
     color: "rgba(149, 75, 0, 0.7)", // muted brown
   },
   {
     id: 2,
-    title: "Feature 2",
+    title: "Production D'Oeufs",
     icon: "example2",
     color: "rgba(229, 229, 234, 0.7)", // soft gray
   },

@@ -63,6 +63,10 @@ function RootLayoutNav() {
             options={{ title: "Ajoute", presentation: "modal" }}
           />
           <Stack.Screen
+            name="modalegg"
+            options={{ title: "Ajoute", presentation: "modal" }}
+          />
+          <Stack.Screen
             name="DeleteModal"
             options={{ title: "Supprimer", presentation: "modal" }}
           />
