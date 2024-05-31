@@ -4,20 +4,15 @@ import { Table, Row, Cell } from "react-native-table-component";
 import * as SQLite from "expo-sqlite/legacy";
 import { useFocusEffect } from "expo-router";
 
-const ExampleThree = () => {
+const EggsTable = () => {
   const tableHead = [
     "id",
-    "Date d'entrée",
-    "Nombre de poussins/poules",
-    "Quantité d'aliment consommée (jour)",
-    "Quantité d'aliment consommée (semaine)",
-    "Quantité d'eau consommée",
-    "poids de poussin/ poule ",
-    "Nombre de mortalité (jour)",
-    "Nombre restant (jour)",
-    "Taux de mortalité",
+    "Nombre de Poules",
+    "Ouefs pondus (jour)",
+    "Poids de l'oeuf (g)",
+    "Oeufs Cassés",
   ];
-  const widthArr = [50, 120, 160, 200, 200, 140, 140, 160, 100, 140];
+  const widthArr = [50, 140, 140, 140, 140];
 
   const [db, setDb] = useState(SQLite.openDatabase("Farm.db"));
   const [names, setNames] = useState([""]);
@@ -28,7 +23,7 @@ const ExampleThree = () => {
   const fetchData = useCallback(() => {
     db.transaction((tx) => {
       tx.executeSql(
-        "SELECT * FROM poultry_data",
+        "SELECT * FROM Eggs_data",
         null,
         (txObj, resultSet) => setNames(resultSet.rows._array),
         (txObj, error) => console.log(error)
@@ -48,7 +43,7 @@ const ExampleThree = () => {
       return Object.values(dataObject);
     });
     setRearrangedArray(rearrangedArray);
-    console.log("rearrangedArray", rearrangedArray);
+    console.log("Eggs", rearrangedArray);
   }, [names]);
 
   return (
@@ -91,4 +86,4 @@ const styles = StyleSheet.create({
   oddrow: { height: 40, backgroundColor: "#F7F6E7" },
 });
 
-export default ExampleThree;
+export default EggsTable;

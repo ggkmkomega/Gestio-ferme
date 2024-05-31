@@ -66,6 +66,14 @@ function RootLayoutNav() {
             name="DeleteModal"
             options={{ title: "Supprimer", presentation: "modal" }}
           />
+          <Stack.Screen
+            name="modalEggs"
+            options={{ title: "Ajoute", presentation: "modal" }}
+          />
+          <Stack.Screen
+            name="DeleteModalEggs"
+            options={{ title: "Supprimer", presentation: "modal" }}
+          />
         </Stack>
       </AuthProvider>
     </ThemeProvider>
