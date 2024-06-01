@@ -88,8 +88,10 @@ export const EggTable = () => {
     "Ouefs pondus (jour)",
     "Poids de l'oeuf (g)",
     "Oeufs Cassés",
+    "Taux de perte %",
+    "Taux de pont %",
   ];
-  const widthArr = [50, 140, 140, 140, 140];
+  const widthArr = [50, 140, 140, , 140, 140, 140, 140];
 
   const [db, setDb] = useState(SQLite.openDatabase("Farm.db"));
   const [eggs, seteggs] = useState([""]);
@@ -117,7 +119,15 @@ export const EggTable = () => {
   useEffect(() => {
     const order = [3, 2, 5, 0, 8, 7, 9, 1, 6, 4];
     const rearrangedArray = eggs.map((dataObject) => {
-      return Object.values(dataObject);
+      const values = Object.values(dataObject);
+      const fifthItem = Number(values[4]); // Convert to number
+      const thirdItem = Number(values[2]); // Convert to number
+      const secondItem = Number(values[1]); // Convert to number
+
+      const newItem1 = (fifthItem / thirdItem) * 100;
+      const newItem2 = (thirdItem / secondItem) * 100;
+
+      return [...values, newItem1, newItem2].map(String);
     });
     setRearrangedArray(rearrangedArray);
     console.log("eggs", rearrangedArray);
