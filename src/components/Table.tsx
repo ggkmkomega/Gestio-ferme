@@ -80,6 +80,72 @@ const ExampleThree = () => {
     </View>
   );
 };
+export const Week = () => {
+  const tableHead = ["De", "a", "Aliment "];
+  const widthArr = [100, 100, 120];
+
+  const [db, setDb] = useState(SQLite.openDatabase("Farm.db"));
+  const [names, setNames] = useState([""]);
+  const [rearrangedArray, setRearrangedArray] = useState<
+    string[][] | undefined
+  >(undefined);
+
+  const fetchData = useCallback(() => {
+    db.transaction((tx) => {
+      tx.executeSql(
+        "SELECT * FROM poultry_data",
+        null,
+        (txObj, resultSet) => setNames(resultSet.rows._array),
+        (txObj, error) => console.log(error)
+      );
+    });
+  }, []);
+
+  useFocusEffect(
+    useCallback(() => {
+      fetchData();
+    }, [fetchData])
+  );
+
+  useEffect(() => {
+    const order = [3, 2, 5, 0, 8, 7, 9, 1, 6, 4];
+    const rearrangedArray = names.map((dataObject) => {
+      return Object.values(dataObject);
+    });
+    setRearrangedArray(rearrangedArray);
+    console.log("rearrangedArray", rearrangedArray);
+  }, [names]);
+
+  return (
+    <View style={styles.container}>
+      <ScrollView horizontal={true}>
+        <View>
+          <Table borderStyle={{ borderWidth: 1, borderColor: "#C1C0B9" }}>
+            <Row
+              data={tableHead}
+              widthArr={widthArr}
+              style={styles.header}
+              textStyle={{ ...styles.text, color: "white" }}
+            />
+          </Table>
+          <ScrollView style={styles.dataWrapper}>
+            <Table borderStyle={{ borderWidth: 1, borderColor: "#C1C0B9" }}>
+              {rearrangedArray?.map((rowData, index) => (
+                <Row
+                  key={index}
+                  data={rowData}
+                  widthArr={widthArr}
+                  style={index % 2 ? styles.evenrow : styles.oddrow}
+                  textStyle={styles.text}
+                />
+              ))}
+            </Table>
+          </ScrollView>
+        </View>
+      </ScrollView>
+    </View>
+  );
+};
 export const EggTable = () => {
   const tableHead = [
     "id",

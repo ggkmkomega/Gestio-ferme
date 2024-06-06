@@ -1,8 +1,8 @@
 import features from "@/assets/data/features";
-import ExampleThree, { EggTable } from "@/src/components/Table";
+import ExampleThree, { EggTable, Week } from "@/src/components/Table";
 import { Stack, useLocalSearchParams, useRouter } from "expo-router";
 import { useEffect, useState } from "react";
-import { StyleSheet, Text, View, Button } from "react-native";
+import { StyleSheet, Text, View, Button, ScrollView } from "react-native";
 import * as SQLite from "expo-sqlite/legacy";
 
 const featureDetailSceen = () => {
@@ -61,7 +61,7 @@ const featureDetailSceen = () => {
     );
   }
   return (
-    <View style={styles.container}>
+    <ScrollView style={styles.container}>
       <Stack.Screen options={{ title: feature?.title }} />
       <View
         style={{
@@ -96,7 +96,11 @@ const featureDetailSceen = () => {
         </View>
       </View>
       <ExampleThree />
-    </View>
+      <View>
+        <Text style={{ fontWeight: "bold" }}>Consomation Semaine</Text>
+        <Week />
+      </View>
+    </ScrollView>
   );
 };
 
