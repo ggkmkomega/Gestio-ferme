@@ -13,11 +13,11 @@ import * as SQLite from "expo-sqlite/legacy";
 
 export default function Modal() {
   const [db, setDb] = useState(SQLite.openDatabase("Farm.db"));
-  const insertSql = `INSERT INTO egg_data (nombre_de_poules, oeufs_pondus_jour, poids_de_loeuf_g, oeufs_casses) VALUES (?, ?, ?, ?)`;
+  const insertSql = `INSERT INTO egg_data (nombre_de_poules, oeufs_pondus_jour, poids_de_loeuf_g, oeufs_casses, taux_de_ponte, taux_de_perte ) VALUES (?, ?, ?, ?, ?, ?)`;
   useEffect(() => {
     db.transaction((tx) => {
       tx.executeSql(
-        "CREATE TABLE IF NOT EXISTS egg_data (id INTEGER PRIMARY KEY AUTOINCREMENT, nombre_de_poules INTEGER, oeufs_pondus_jour INTEGER, poids_de_loeuf_g REAL, oeufs_casses INTEGER);"
+        "CREATE TABLE IF NOT EXISTS egg_data (id INTEGER PRIMARY KEY AUTOINCREMENT, nombre_de_poules INTEGER, oeufs_pondus_jour INTEGER, poids_de_loeuf_g REAL, oeufs_casses INTEGER,taux_de_ponte REAL,taux_de_perte REAL);"
       );
     });
   }, [db]);
@@ -31,6 +31,8 @@ export default function Modal() {
       oeufs_pondus_jour: 0,
       poids_de_loeuf_g: 0,
       oeufs_casses: 0,
+      taux_de_perte: 0,
+      taux_de_ponte: 0,
     },
   });
   type FormData = {
@@ -38,6 +40,8 @@ export default function Modal() {
     oeufs_pondus_jour: number;
     poids_de_loeuf_g: number;
     oeufs_casses: number;
+    taux_de_ponte: number;
+    taux_de_perte: number;
   };
   const onSubmit = (data: FormData) => {
     db.transaction((tx) => {
@@ -46,6 +50,8 @@ export default function Modal() {
         data.oeufs_pondus_jour,
         data.poids_de_loeuf_g,
         data.oeufs_casses,
+        ((data.oeufs_pondus_jour / data.nombre_de_poules) * 100).toFixed(2),
+        ((data.oeufs_casses / data.oeufs_pondus_jour) * 100).toFixed(2),
       ]);
     });
   };

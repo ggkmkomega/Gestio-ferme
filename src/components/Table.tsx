@@ -88,8 +88,10 @@ export const EggTable = () => {
     "Ouefs pondus (jour)",
     "Poids de l'oeuf (g)",
     "Oeufs Cassés",
+    "Taux de Ponte",
+    "Taux de Perte",
   ];
-  const widthArr = [50, 140, 140, 140, 140];
+  const widthArr = [50, 140, 140, 140, 140, 140, 140];
 
   const [db, setDb] = useState(SQLite.openDatabase("Farm.db"));
   const [eggs, seteggs] = useState([""]);
