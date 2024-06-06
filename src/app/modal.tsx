@@ -11,11 +11,11 @@ export default function Modal() {
   const [open, setOpen] = useState(true);
   //const [date, setDate] = useState(new Date());
   const [db, setDb] = useState(SQLite.openDatabase("Farm.db"));
-  const insertSql = `INSERT INTO poultry_data (entry_date, number_of_chicks_or_hens, daily_feed_consumption, weekly_feed_consumption, water_consumption, weight_of_chick_or_hen, daily_mortality, remaining_number, mortality_rate) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`;
+  const insertSql = `INSERT INTO poultry_data (entry_date, number_of_chicks_or_hens, daily_feed_consumption,  water_consumption, weight_of_chick_or_hen, daily_mortality, remaining_number, mortality_rate) VALUES (?, ?, ?, ?, ?, ?, ?, ?)`;
   useEffect(() => {
     db.transaction((tx) => {
       tx.executeSql(
-        "CREATE TABLE IF NOT EXISTS poultry_data (id INTEGER PRIMARY KEY AUTOINCREMENT,entry_date TEXT, number_of_chicks_or_hens INTEGER, daily_feed_consumption REAL, weekly_feed_consumption REAL, water_consumption REAL, weight_of_chick_or_hen REAL, daily_mortality INTEGER, remaining_number INTEGER, mortality_rate REAL);"
+        "CREATE TABLE IF NOT EXISTS poultry_data (id INTEGER PRIMARY KEY AUTOINCREMENT,entry_date TEXT, number_of_chicks_or_hens INTEGER, daily_feed_consumption REAL, water_consumption REAL, weight_of_chick_or_hen REAL, daily_mortality INTEGER, remaining_number INTEGER, mortality_rate REAL);"
       );
     });
   }, [db]);
@@ -27,7 +27,6 @@ export default function Modal() {
     defaultValues: {
       number_of_chicks_or_hens: 0,
       daily_feed_consumption: 0,
-      weekly_feed_consumption: 0,
       water_consumption: 0,
       weight_of_chick_or_hen: 0,
       daily_mortality: 0,
@@ -41,12 +40,13 @@ export default function Modal() {
         dayjs(data.entry_date).format("DD MMM YYYY"),
         data.number_of_chicks_or_hens,
         data.daily_feed_consumption,
-        data.weekly_feed_consumption,
         data.water_consumption,
         data.weight_of_chick_or_hen,
         data.daily_mortality,
-        data.remaining_number,
-        data.mortality_rate,
+        data.number_of_chicks_or_hens - data.daily_mortality,
+        ((data.daily_mortality / data.number_of_chicks_or_hens) * 100).toFixed(
+          2
+        ),
       ]);
     });
   };
@@ -54,7 +54,6 @@ export default function Modal() {
     entry_date: DateType;
     number_of_chicks_or_hens: number;
     daily_feed_consumption: number;
-    weekly_feed_consumption: number;
     water_consumption: number;
     weight_of_chick_or_hen: number;
     daily_mortality: number;
@@ -123,14 +122,6 @@ export default function Modal() {
           displayText="Nombre de mortalité"
         />
         {errors.daily_mortality && (
-          <Text style={styles.errorText}>This is required.</Text>
-        )}
-        <FormInputController
-          control={control}
-          name="remaining_number"
-          displayText="Nombre restant"
-        />
-        {errors.remaining_number && (
           <Text style={styles.errorText}>This is required.</Text>
         )}
 

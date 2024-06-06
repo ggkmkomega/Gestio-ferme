@@ -10,14 +10,13 @@ const ExampleThree = () => {
     "Date d'entrée",
     "Nombre de poussins/poules",
     "Quantité d'aliment consommée (jour)",
-    "Quantité d'aliment consommée (semaine)",
     "Quantité d'eau consommée",
     "poids de poussin/ poule ",
     "Nombre de mortalité (jour)",
-    "Nombre restant (jour)",
-    "Taux de mortalité",
+    "Nombre restant",
+    "Taux de mortalité (%)",
   ];
-  const widthArr = [50, 120, 160, 200, 200, 140, 140, 160, 100, 140];
+  const widthArr = [50, 120, 160, 200, 140, 140, 160, 100, 140];
 
   const [db, setDb] = useState(SQLite.openDatabase("Farm.db"));
   const [names, setNames] = useState([""]);
